@@ -14,4 +14,14 @@ function db_connect() {
     }
     return $conn;
 }
+
+$dbase =  db_connect();
+
+if($dbase){
+    $categorySelected = $_GET["categorySelected"];
+    if(!$categorySelected){         //fetch all categories if no category selected
+        $sql = "select * from category;";
+        $categories = mysqli_query($dbase, $sql);
+    }
+}
 ?>
