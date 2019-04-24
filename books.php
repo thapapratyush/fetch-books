@@ -1,3 +1,3 @@
 <?php
-    $scho "<script type='text/javascript' src=book.js'></script>"
+    $scho "<script type='text/javascript' src='book.js'></script>"
 ?>
