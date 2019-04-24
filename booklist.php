@@ -22,6 +22,13 @@ if($dbase){
     if(!$categorySelected){         //fetch all categories if no category selected
         $sql = "select * from category;";
         $categories = mysqli_query($dbase, $sql);
+        $elem = new SimpleXMLElement("<?xml version='1.0'?>");
+        while ($row = $categories->fetch_assoc()) {
+            $running = $elem->addChild($row[category]);
+            $running->addChild("name", $row[category]);
+            $running->addChild("id", $row[category_id]);
+        }
+        echo $elem->asXML();
     }
 }
 ?>
