@@ -29,7 +29,27 @@ if($dbase){
             $running->addChild("id", $row[category_id]);
         }
         echo $elem->asXML();
+    } else{
+        $categoryChosen = $_GET["category"];
+        
+        //query the databse with the category that is chosen
+        $sql = "select t.title_name, a.author, y.year, c.category from title t ";
+        $sql .= "join category c on c.category_id = t.category_id and ";
+        $sql .= "c.category_id=" . $categoryChosen . " ";
+        $sql .= "join year y on y.title_id = t.title_id ";
+        $sql .= "join author a on a.author_id = t.author_id;";
+        $list_books = mysqli_query($dbase, $sql);
+    
+        $booksXML = new SimpleXMLElement("<?xml version='1.0'?><books></books>");   //create an XML element and populate it after querying the database
+        while ($row = $list_books->fetch_assoc()) {
+            $currBook = $booksXML->addChild("book");
+            $currBook->addChild("author", $row[author]);
+            $currBook->addChild("name", $row[category]);
+            $currBook->addChild("year", $row[year]);
+            $currBook->addChild("title", $row[title_name]);
+        }
+        Header('Content-type: text/xml');
     }
 }
-mysqli_close($dbase);
+    mysqli_close($dbase);
 ?>
