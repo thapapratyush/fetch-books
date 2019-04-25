@@ -31,4 +31,5 @@ if($dbase){
         echo $elem->asXML();
     }
 }
+mysqli_close($dbase);
 ?>
