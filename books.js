@@ -24,4 +24,27 @@ function fetchCategories(response) {
     } else {
         console.log("Could not parse the response");
     }
+
+    populateCategoriestoUI(list_of_categories);
+}
+
+function populateCategoriestoUI(categories){
+    // Create radio buttons for each element and populate
+    var inputForm = document.createElement("form");
+    inputForm.name = "chooseCategory";
+
+    for (var i = 0; i < categories.length; i++) {
+        var input = document.createElement("input");
+        input.type = "radio";
+        input.name = "category";
+        input.value = categories[i][1];
+
+        var label = document.createElement("label");
+        var textNode = document.createTextNode(categories[i][0] + " ");
+        label.appendChild(textNode);
+        inputForm.appendChild(input);
+        inputForm.appendChild(label);
+    }
+
+    $("categories").appendChild(inputForm);
 }
