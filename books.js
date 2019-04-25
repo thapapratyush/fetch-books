@@ -8,12 +8,15 @@ window.onload = function(e){
 }
 
 function fetchCategories(response) {
-    if (response.responseXML) {
+    var list_of_categories = []
+
+    if (response.responseJSON) {
+        list_of_categories = JSON.parse(response.responseJSON);
+    } else if (response.responseXML) {
         responseXML = response.responseXML;
         var categories = responseXML.getElementsByTagName("categories")[0];
         var firstchild = categories.firstChild;
 
-        var list_of_categories = []
         while (firstchild != null) {
             var name = firstchild.firstChild.firstChild.nodeValue;
             var id = firstchild.lastChild.firstChild.nodeValue;
@@ -85,7 +88,10 @@ function onListBooksClick () {
 
 function printBooksfromCategory(response) {
     var list_of_books = [];
-    if (response.responseXML) {
+    if (response.responseJSON) {
+        list_of_books = JSON.parse(response.responseJSON);
+    }
+    else if (response.responseXML) {
         returnXML = data.responseXML;
         var books = returnXML.getElementsByTagName("books")[0];
         var currBook = books.firstChild;
