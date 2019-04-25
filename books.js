@@ -6,3 +6,12 @@ window.onload = function(e){
             onSuccess: fetchCategories,
         });
 }
+
+function fetchCategories(response) {
+    if (response.responseXML) {
+        responseXML = response.responseXML;
+        console.log(responseXML);  
+    } else {
+        console.log("Could not parse the response");
+    }
+}
