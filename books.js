@@ -26,6 +26,7 @@ function fetchCategories(response) {
     }
 
     populateCategoriestoUI(list_of_categories);
+    handleSubmitBtn();
 }
 
 function populateCategoriestoUI(categories){
@@ -47,4 +48,13 @@ function populateCategoriestoUI(categories){
     }
 
     $("categories").appendChild(inputForm);
+}
+
+function handleSubmitBtn(){
+    var submitBtn = document.createElement("input");
+    submitBtn.type = "button";
+    submitBtn.value = "List Book Categories";
+    //attach the onclick handler to handle later
+    submitBtn.onclick = onListBooks;
+    inputForm.appendChild(submitBtn);
 }
