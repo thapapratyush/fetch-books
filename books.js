@@ -82,3 +82,40 @@ function onListBooksClick () {
             });
     }
 }
+
+function printBooksfromCategory(response) {
+    var list_of_books = [];
+    if (response.responseXML) {
+        returnXML = data.responseXML;
+        var books = returnXML.getElementsByTagName("books")[0];
+        var currBook = books.firstChild;
+        while (currBook) {
+            var bookAuthor = currBook.firstChild.firstChild.nodeValue;
+            var bookCat = currBook.firstChild.nextSibling.firstChild.nodeValue;
+            var bookYear = currBook.firstChild.nextSibling.
+                nextSibling.firstChild.nodeValue;
+            var bookName = currBook.lastChild.firstChild.nodeValue;
+            list_of_books.push([bookAuthor, bookCat, bookYear, bookName]);
+            currBook = currBook.nextSibling;
+        }
+    } 
+    if (list_of_books) {
+        var title = document.createElement("div");
+        var text = document.createTextNode(list_of_books[0][1] + '":');
+        title.appendChild(text);
+        $("books").appendChild(title);
+    }
+    var listbooks = document.createElement("ul");
+
+    for (var i=0; i < list_of_books.length; i++) {
+        var li = document.createElement("li");
+        var bookItem = list_of_books[i][3] + 
+            ", by " + list_of_books[i][0] + 
+            " (" + list_of_books[i][2] + ")";
+        var row = document.createTextNode(bookItem);
+        li.appendChild(row);
+        listbooks.appendChild(li);
+    }
+
+    $("books").appendChild(listbooks);
+}
