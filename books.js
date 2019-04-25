@@ -58,3 +58,27 @@ function handleSubmitBtn(){
     submitBtn.onclick = onListBooks;
     inputForm.appendChild(submitBtn);
 }
+
+function onListBooksClick () {
+    var radioBtns = document.getElementsByName('category');
+    var categoryChosen = "";
+
+    radioBtns.forEach(
+        function(button) {
+            if (button.checked) {
+                categoryChosen = button.value;
+            }
+        }
+    );
+
+    if (categoryChosen) {
+        new Ajax.Request ("booklist.php",
+            {
+                method: "get",
+                parameters: {
+                    categorySelected: true,
+                    category: categoryChosen},
+                onSuccess: printBooksfromCategory,
+            });
+    }
+}
