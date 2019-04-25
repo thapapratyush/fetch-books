@@ -22,13 +22,22 @@ if($dbase){
     if(!$categorySelected){         //fetch all categories if no category selected
         $sql = "select * from category;";
         $categories = mysqli_query($dbase, $sql);
-        $elem = new SimpleXMLElement("<?xml version='1.0'?>");
-        while ($row = $categories->fetch_assoc()) {
-            $running = $elem->addChild($row[category]);
-            $running->addChild("name", $row[category]);
-            $running->addChild("id", $row[category_id]);
+        if ($format == "json") {
+            $list_of_categories = array();
+            while ($row = $all_categories->fetch_assoc()) {
+                array_push($list_of_categories, $row[category]);
+            }
+            $response = array("categories" => $list_of_categories);
+            echo json_encode($response);
+        } else {
+            $elem = new SimpleXMLElement("<?xml version='1.0'?>");
+            while ($row = $categories->fetch_assoc()) {
+                $running = $elem->addChild($row[category]);
+                $running->addChild("name", $row[category]);
+                $running->addChild("id", $row[category_id]);
+            }
+            echo $elem->asXML();
         }
-        echo $elem->asXML();
     } else{
         $categoryChosen = $_GET["category"];
         
@@ -39,16 +48,25 @@ if($dbase){
         $sql .= "join year y on y.title_id = t.title_id ";
         $sql .= "join author a on a.author_id = t.author_id;";
         $list_books = mysqli_query($dbase, $sql);
-    
-        $booksXML = new SimpleXMLElement("<?xml version='1.0'?><books></books>");   //create an XML element and populate it after querying the database
-        while ($row = $list_books->fetch_assoc()) {
-            $currBook = $booksXML->addChild("book");
-            $currBook->addChild("author", $row[author]);
-            $currBook->addChild("name", $row[category]);
-            $currBook->addChild("year", $row[year]);
-            $currBook->addChild("title", $row[title_name]);
+        
+        if ($format == "json") {
+            $list_books = array();
+            while ($row = $all_books->fetch_assoc()) {
+                array_push($list_books, $row[category]);
+            }
+            $response = array("books" => $list_books);
+            echo json_encode($response);
+        } else {
+            $booksXML = new SimpleXMLElement("<?xml version='1.0'?><books></books>");   //create an XML element and populate it after querying the database
+            while ($row = $list_books->fetch_assoc()) {
+                $currBook = $booksXML->addChild("book");
+                $currBook->addChild("author", $row[author]);
+                $currBook->addChild("name", $row[category]);
+                $currBook->addChild("year", $row[year]);
+                $currBook->addChild("title", $row[title_name]);
+            }
+            Header('Content-type: text/xml');
         }
-        Header('Content-type: text/xml');
     }
 }
     mysqli_close($dbase);
