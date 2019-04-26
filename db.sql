@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS listofbooks;
+CREATE DATABASE IF NOT EXISTS listofbooks;
 USE listofbooks;
 
 CREATE USER 'prat'@'localhost' IDENTIFIED BY 'password';
