@@ -51,7 +51,7 @@ if($dbase){
         
         if ($format == "json") {
             $list_books = array();
-            while ($row = $all_books->fetch_assoc()) {
+            while ($row = $list_books->fetch_assoc()) {
                 array_push($list_books, $row[category]);
             }
             $response = array("books" => $list_books);
